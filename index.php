@@ -30,5 +30,48 @@ $f3->route('GET /breakfast', function() {
     echo $view->render('views/breakfast.html');
 });
 
+$f3->route('GET /breakfast/buffet', function() {
+    $view = new Template();
+    echo $view->render('views/breakfast-buffet.html');
+});
+
+$f3->route('GET /second-breakfast', function() {
+    $view = new Template();
+    echo $view->render('views/second-breakfast.html');
+});
+
+$f3->route('GET /lunch', function() {
+    $view = new Template();
+    echo $view->render('views/lunch.html');
+});
+
+$f3->route('GET /order', function() {
+    $view = new Template();
+    echo $view->render('views/form1.html');
+});
+
+$f3->route('GET /order2', function() {
+    $view = new Template();
+    echo $view->render('views/form2.html');
+});
+
+
+$f3->route('GET /@item', function($f3, $params) {
+    //var_dump($params);
+    $item = $params['item'];
+    echo "<p>You ordered $item</p>";
+
+    $foodsWeServe = array("tacos", "ramen", "saimin", "bagels");
+    if (!in_array($item, $foodsWeServe)) {
+        echo "<p>You'll never take our $item!";
+        $f3->error(403);
+
+    }
+
+    if($item === "bagels"){
+        $f3->reroute("/breakfast");
+    }
+});
+
 //Run fat free
 $f3->run();
